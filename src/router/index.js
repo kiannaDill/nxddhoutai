@@ -6,15 +6,22 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView,
-    // redirect: '/login'
+    path: "/",
+    name: "data",
+    redirect: '/login',
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: "/home",
+    name: "home",
+    redirect: '/home/index',
+    component: HomeView,
+    children: [
+      {
+        path: '',
+        name: 'index',
+        component: () => import(/* webpackChunkName: "index" */ '../views/DataView.vue')
+      }
+    ]
   },
   {
     path: '/login',
@@ -26,5 +33,20 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.name === "login") {
+    // 登录界面不设权限
+    next()
+  } else {
+    const token = localStorage.getItem("token")
+    // 非登录界面设置权限
+    if (token) {
+      next()
+    } else {
+      next({
+        name: "login"
+      })
+    }
+  }
+})
 export default router

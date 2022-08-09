@@ -11,7 +11,7 @@
           text-color="#fff"
           active-text-color="skyblue"
         >
-          <el-menu-item index="1">
+          <el-menu-item index="/home/index">
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
@@ -49,19 +49,36 @@
         </el-menu>
       </el-col>
     </el-row>
+
+    <!-- 路由 -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
+import instance from "@/api/api.js";
 export default {
   name: "HomeView",
-  components: {},
+  data() {
+    return {};
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+  },
+  created() {
+    // instance.get("/aa").then((res) => console.log("homeview --->", res));
+  },
 };
 </script>
 <style lang="scss" scoped>
 .home {
+  display: flex;
+  justify-content: start;
   margin: -10px 0 0 -10px;
   .el-menu-vertical-demo {
     width: 202px;
